@@ -52,7 +52,7 @@
             <p>Explain what your page does and how it works here!</p>
         </main>
     </div>
-    <img src="http://dummyimage.com/300x400" alt="Time of Day Image" class="flexible">
+    <img src="" alt="Time of Day Image" class="flexible" id="time-image">
     <footer>
         <p><small>&copy; 2022 by 
             Salim Noori, All Rights Reserved ~ 
@@ -61,6 +61,35 @@
         </p>
     </footer>
     <script>
+        function getTimeOfDayImage() {
+            const images = {
+                morning: 'images/morning.jpg',
+                afternoon: 'images/afternoon.jpg',
+                evening: 'images/evening.jpg',
+                night: 'images/night.jpg'
+            };
+
+            const hour = new Date().getHours();
+            let timeOfDay;
+
+            if (hour >= 6 && hour < 12) {
+                timeOfDay = 'morning';
+            } else if (hour >= 12 && hour < 18) {
+                timeOfDay = 'afternoon';
+            } else if (hour >= 18 && hour < 21) {
+                timeOfDay = 'evening';
+            } else {
+                timeOfDay = 'night';
+            }
+
+            return images[timeOfDay];
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const imageElement = document.getElementById('time-image');
+            imageElement.src = getTimeOfDayImage();
+        });
+
         document.getElementById("html-checker").setAttribute("href","https://validator.w3.org/nu/?doc=" + location.href);
         document.getElementById("css-checker").setAttribute("href","https://jigsaw.w3.org/css-validator/validator?uri=" + location.href);  
     </script>
