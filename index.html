@@ -19,6 +19,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+        }
+        .datetime {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.2em;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .greeting {
+            color: #ff6347; /* tomato color */
+            font-size: 2.5em; /* Enlarged font size */
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff6347, 0 0 20px #ff6347, 0 0 40px #ff6347; /* Glowing effect */
         }
         img.flexible {
             float: right;
@@ -43,8 +59,10 @@
     </style>
 </head>
 <body>
+    <div class="datetime" id="datetime"></div>
     <div class="centered-content">
         <header>
+            <div class="greeting" id="greeting"></div>
             <h1 class="masthead">Time of Day</h1>
             <h3>A JavaScript Project by Salim Noori</h3>
         </header>
@@ -54,7 +72,7 @@
     </div>
     <img src="" alt="Time of Day Image" class="flexible" id="time-image">
     <footer>
-        <p><small>&copy; 2022 by 
+        <p><small>&copy; 2024 by 
             Salim Noori, All Rights Reserved ~ 
             <a id="html-checker" href="#" target="_blank">Check HTML</a> ~ 
             <a id="css-checker" href="#" target="_blank">Check CSS</a></small>
@@ -85,9 +103,32 @@
             return images[timeOfDay];
         }
 
+        function getGreeting() {
+            const hour = new Date().getHours();
+            if (hour >= 6 && hour < 12) {
+                return 'Good Morning';
+            } else if (hour >= 12 && hour < 18) {
+                return 'Good Afternoon';
+            } else if (hour >= 18 && hour < 21) {
+                return 'Good Evening';
+            } else {
+                return 'Good Night';
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const dateTimeString = now.toLocaleDateString('en-US', options);
+            document.getElementById('datetime').textContent = dateTimeString;
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             const imageElement = document.getElementById('time-image');
             imageElement.src = getTimeOfDayImage();
+            document.getElementById('greeting').textContent = getGreeting();
+            updateDateTime();
+            setInterval(updateDateTime, 1000); // Update every second
         });
 
         document.getElementById("html-checker").setAttribute("href","https://validator.w3.org/nu/?doc=" + location.href);
